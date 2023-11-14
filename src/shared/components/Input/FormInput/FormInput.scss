@@ -1,0 +1,33 @@
+@import '../../../../styles/variables';
+
+.form-control {
+  height: 56px;
+  padding: 16px;
+  background-color: $-lightgray-b;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+
+  .form-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 14px;
+  
+    &::placeholder {
+      color: #4D565C;
+    }
+  }
+}

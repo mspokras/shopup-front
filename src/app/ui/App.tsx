@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.scss';
+import LoginForm from '../../pages/LoginForm/LoginForm';
+import { Route, Routes } from 'react-router-dom';
+import ProductsPage from '../../pages/Products/ProductsPage';
 
 function App() {
   return (
-    <div className="App">
-      ShopUp App
-    </div>
+    <Routes>
+      <Route index element={<LoginForm />} />
+      <Route path='/products' element={<ProductsPage />}/>
+    </Routes>
   );
 }
 
