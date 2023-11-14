@@ -1,0 +1,14 @@
+.nav-container {
+  width: 357px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #FBFBFB;
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

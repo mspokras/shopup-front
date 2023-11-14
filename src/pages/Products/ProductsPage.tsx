@@ -1,10 +1,13 @@
 import React from 'react';
 import './ProductsPage.scss';
+import TemplatePage from '../TemplatePage/TemplatePage';
 
 const ProductsPage = () => {
   return (
     <div className='products-page'>
-      Products Page
+      <TemplatePage title="Products">
+        Products grid
+      </TemplatePage>
     </div>
   );
 };
