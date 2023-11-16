@@ -4,6 +4,7 @@ import './FormInput.scss';
 interface PropTypes {
   placeholder?: string;
   icon?: string;
+  type?: string;
 }
 
 const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
@@ -33,7 +34,6 @@ const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
       <input 
         className="form-input" 
         id="form-input" 
-        type="text" 
         ref={handleRef}
         placeholder={placeholder}  
         {...rest}

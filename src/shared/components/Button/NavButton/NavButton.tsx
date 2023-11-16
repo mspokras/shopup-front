@@ -3,12 +3,13 @@ import './NavButton.scss';
 
 interface PropTypes {
   label: string;
+  onClick?: () => void;
 }
 
 const NavButton = (props: PropTypes) => {
-  const { label } = props;
+  const { label, onClick } = props;
   return (
-    <button className='nav-button'>{label}</button>
+    <button className='nav-button' onClick={onClick}>{label}</button>
   );
 };
 

@@ -55,6 +55,7 @@ const LoginForm = () => {
           <FormInput 
             placeholder='Enter your Password' 
             icon={passwordIcon} 
+            type="password"
             {...register('password')}
           />
         </div>

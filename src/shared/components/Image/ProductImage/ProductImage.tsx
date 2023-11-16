@@ -5,14 +5,18 @@ import Edit from '../../../../assets/icons/Edit.svg';
 
 interface PropTypes {
   image: string;
+  onDelete: () => void;
 }
 
 const ProductImage = (props: PropTypes) => {
-  const { image } = props;
+  const { image, onDelete } = props;
+  const handleDeleteClick = () => {
+    onDelete();
+  };
   return (
     <div className='product-image-container'>
       <img src={image} alt="product" className="img-product" />
-      <div className='icon-container icon-trash'>
+      <div className='icon-container icon-trash' onClick={handleDeleteClick}>
         <img src={Trash} alt="trash" className="img-trash" />
       </div>
       <div className='icon-container icon-edit'>

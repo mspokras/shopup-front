@@ -6,13 +6,14 @@ interface PropTypes {
   productImage: string;
   name: string;
   price: string;
+  onDelete: () => void; 
 }
 
 const ProductCard = (props: PropTypes) => {
-  const { productImage, name, price } = props;
+  const { productImage, name, price, onDelete } = props;
   return (
     <div className='product-card'>
-      <ProductImage image={productImage} />
+      <ProductImage image={productImage} onDelete={onDelete} />
       <div className="product-details">
         <div className='product-name'>{name}</div>
         <div className='product-price'>${price}</div>
