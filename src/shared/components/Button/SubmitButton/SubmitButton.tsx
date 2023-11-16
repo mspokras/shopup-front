@@ -3,12 +3,14 @@ import './SubmitButton.scss';
 
 interface PropTypes {
   label: string;
+  onClick?: () => void;
 }
 
 const SubmitButton = (props: PropTypes) => {
-  const { label } = props;
+  const { label, onClick } = props;
+
   return (
-    <button className='submit-button'>{label}</button>
+    <button className='submit-button' onClick={onClick}>{label}</button>
   );
 };
 

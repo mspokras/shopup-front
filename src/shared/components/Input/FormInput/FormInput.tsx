@@ -1,14 +1,16 @@
-import React, { useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import './FormInput.scss';
 
 interface PropTypes {
   placeholder?: string;
   icon?: string;
   type?: string;
+  error?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
-  const { placeholder, icon, ...rest } = props;
+  const { placeholder, icon, error, ...rest } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const inputFocus = () => {
@@ -30,7 +32,7 @@ const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
 
   return (
     <div className="form-control" onClick={inputFocus}>
-      <img src={icon} alt="icon" className="form-icon" />
+      {icon && <img src={icon} alt="icon" className="form-icon" />}
       <input 
         className="form-input" 
         id="form-input" 
@@ -38,6 +40,7 @@ const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
         placeholder={placeholder}  
         {...rest}
       />
+      <div className='error-message'>{error}</div>
     </div>
   );
 });
