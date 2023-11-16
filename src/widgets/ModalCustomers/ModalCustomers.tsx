@@ -6,17 +6,11 @@ import Modal from '../../shared/components/Modal/Modal';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ICustomer } from '../../shared/types/types';
 
 interface PropTypes {
   onClose: () => void;
-  onAddCustomer: (customer: Customer) => void;
-}
-
-interface Customer {
-  firstName: string;
-  lastName: string;
-  company: string;
-  email: string;
+  onAddCustomer: (customer: ICustomer) => void;
 }
 
 const yupSchema = yup.object({

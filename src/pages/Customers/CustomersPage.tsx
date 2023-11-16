@@ -5,24 +5,18 @@ import './CustomersPage.scss';
 import customersData from './customersData.json';
 import CustomersListItem from '../../shared/components/ListItem/CustomersListItem/CustomersListItem';
 import ModalCustomers from '../../widgets/ModalCustomers/ModalCustomers';
+import { ICustomer } from '../../shared/types/types';
 
 const CustomersPage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [customers, setCustomers] = useState(customersData);
 
-  interface Customer {
-    firstName: string;
-    lastName: string;
-    company: string;
-    email: string;
-  }
-
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
-  const handleAddCustomer = (customer: Customer) => {
-    const updatedCustomers = [...customers, { id: customers.length + 1001, ...customer }];
+  const handleAddCustomer = (customer: ICustomer) => {
+    const updatedCustomers = [...customers, { id: customers.length + 1000, ...customer }];
     setCustomers(updatedCustomers);
   };
 

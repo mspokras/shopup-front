@@ -9,7 +9,8 @@ import OrdersPage from '../../pages/Orders/OrdersPage';
 function App() {
   return (
     <Routes>
-      <Route index path='/login' element={<LoginForm />} />
+      <Route index element={<LoginForm />} />
+      <Route path='/login' element={<LoginForm />} />
       <Route path='/products' element={<ProductsPage />}/>
       <Route path='/customers' element={<CustomersPage />}/>
       <Route path='/orders' element={<OrdersPage />}/>

@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useRef } from 'react';
 import './FormInput.scss';
+import classNames from 'classnames';
 
 interface PropTypes {
+  className?: string;
   placeholder?: string;
   icon?: string;
   type?: string;
@@ -10,7 +12,7 @@ interface PropTypes {
 }
 
 const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
-  const { placeholder, icon, error, ...rest } = props;
+  const { placeholder, icon, error, className, ...rest } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const inputFocus = () => {
@@ -31,11 +33,10 @@ const FormInput = React.forwardRef<HTMLInputElement,PropTypes>((props, ref) => {
   };
 
   return (
-    <div className="form-control" onClick={inputFocus}>
+    <div className={classNames('form-control', className)}  onClick={inputFocus}>
       {icon && <img src={icon} alt="icon" className="form-icon" />}
       <input 
-        className="form-input" 
-        id="form-input" 
+        className="form-input"
         ref={handleRef}
         placeholder={placeholder}  
         {...rest}

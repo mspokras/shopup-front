@@ -12,7 +12,7 @@
   align-items: center;
 
   .modal-content {
-    width: 832px;
+    max-width: 832px;
     padding: 24px;
     background-color: $-gray;
     border-radius: 32px;
