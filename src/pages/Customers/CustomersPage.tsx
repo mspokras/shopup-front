@@ -16,7 +16,7 @@ const CustomersPage = () => {
   };
 
   const handleAddCustomer = (customer: ICustomer) => {
-    const updatedCustomers = [...customers, { id: customers.length + 1000, ...customer }];
+    const updatedCustomers = [...customers, { id: customers.length + 1001, ...customer }];
     setCustomers(updatedCustomers);
   };
 

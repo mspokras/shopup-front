@@ -1,6 +1,8 @@
 export interface IProduct {
-  productImage: any;
-  name: string;
+  primImage: any;
+  secImages?: any;
+  desc?: string;
+  title: string;
   price: number;
 }
 

@@ -4,18 +4,21 @@ import Trash from '../../../../assets/icons/Trash.svg';
 import Edit from '../../../../assets/icons/Edit.svg';
 
 interface PropTypes {
-  image: string;
+  image: any;
   onDelete: () => void;
+  external?: boolean;
 }
 
 const ProductImage = (props: PropTypes) => {
-  const { image, onDelete } = props;
+  const { image, onDelete, external } = props;
+  const imageUrl: string = external ? image : URL.createObjectURL(image);
+  
   const handleDeleteClick = () => {
     onDelete();
   };
   return (
     <div className='product-image-container'>
-      <img src={image} alt="product" className="img-product" />
+      <img src={imageUrl} alt="product" className="img-product" />
       <div className='icon-container icon-trash' onClick={handleDeleteClick}>
         <img src={Trash} alt="trash" className="img-trash" />
       </div>

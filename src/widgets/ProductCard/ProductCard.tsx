@@ -3,19 +3,21 @@ import './ProductCard.scss';
 import ProductImage from '../../shared/components/Image/ProductImage/ProductImage';
 
 interface PropTypes {
-  productImage: string;
-  name: string;
+  primImage: File | string;
+  title: string;
   price: string;
   onDelete: () => void; 
 }
 
 const ProductCard = (props: PropTypes) => {
-  const { productImage, name, price, onDelete } = props;
+  const { primImage, title, price, onDelete } = props;
+  const isExternal = typeof primImage === 'string';
+
   return (
     <div className='product-card'>
-      <ProductImage image={productImage} onDelete={onDelete} />
+      <ProductImage image={primImage} onDelete={onDelete} external={isExternal} />
       <div className="product-details">
-        <div className='product-name'>{name}</div>
+        <div className='product-name'>{title}</div>
         <div className='product-price'>${price}</div>
       </div>
     </div>

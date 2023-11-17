@@ -21,8 +21,10 @@ const ProductsPage = () => {
   };
 
   const handleAddProduct = (product: IProduct) => {
-    const updatedProducts = [...products, { id: products.length + 1000, ...product }];
+    const updatedProducts = [...products, { id: products.length + 1001, ...product }];
+    console.log(product);
     setProducts(updatedProducts);
+    toggleModal();
   } 
 
   return (
@@ -38,7 +40,7 @@ const ProductsPage = () => {
             />
           ))}
         </div>
-        {isModalVisible && <ModalProducts onClose={toggleModal} />}
+        {isModalVisible && <ModalProducts onClose={toggleModal} onAddProduct={handleAddProduct} />}
       </TemplatePage>
     </div>
   );

@@ -7,27 +7,47 @@
   .modal-pictures {
     height: 290px;
     display: flex;
-    gap: 12px;
+    gap: 10px;
 
-    .plus-button {
+    .plus-button, .prim-image {
       width: 290px;
       height: 100%;
+    }
 
-      img {
-        width: 52px;
-        height: 52px;
-      }
+    .plus-button img {
+      width: 52px;
+      height: 52px;
+    }
+
+    .prim-image {
+      overflow: hidden;
+      object-fit: cover;
+      border-radius: 16px;
     }
 
     .pictures-small {
+      width: 290px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+
       .plus-button {
-        width: 90px;
-        height: 90px;
+        width: 89px;
+        height: 89px;
+        border-radius: 16px;
 
         img {
           width: 52px;
           height: 52px;
         }
+      }
+
+      .img-extra {
+        overflow: hidden;
+        object-fit: cover;
+        width: 89px;
+        height: 89px;
+        border-radius: 16px;
       }
     }
   }
