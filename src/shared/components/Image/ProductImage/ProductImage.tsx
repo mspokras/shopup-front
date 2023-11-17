@@ -6,11 +6,12 @@ import Edit from '../../../../assets/icons/Edit.svg';
 interface PropTypes {
   image: any;
   onDelete: () => void;
+  onEditClick: () => void;
   external?: boolean;
 }
 
 const ProductImage = (props: PropTypes) => {
-  const { image, onDelete, external } = props;
+  const { image, onDelete, onEditClick, external } = props;
   const imageUrl: string = external ? image : URL.createObjectURL(image);
   
   const handleDeleteClick = () => {
@@ -23,7 +24,7 @@ const ProductImage = (props: PropTypes) => {
         <img src={Trash} alt="trash" className="img-trash" />
       </div>
       <div className='icon-container icon-edit'>
-        <img src={Edit} alt="edit" className="img-edit" />
+        <img src={Edit} alt="edit" className="img-edit" onClick={()=>onEditClick} />
       </div>
     </div>
   );

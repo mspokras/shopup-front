@@ -7,15 +7,16 @@ interface PropTypes {
   title: string;
   price: string;
   onDelete: () => void; 
+  onEditClick: () => void;
 }
 
 const ProductCard = (props: PropTypes) => {
-  const { primImage, title, price, onDelete } = props;
+  const { primImage, title, price, onDelete, onEditClick } = props;
   const isExternal = typeof primImage === 'string';
 
   return (
     <div className='product-card'>
-      <ProductImage image={primImage} onDelete={onDelete} external={isExternal} />
+      <ProductImage image={primImage} onDelete={onDelete} onEditClick={onEditClick} external={isExternal} />
       <div className="product-details">
         <div className='product-name'>{title}</div>
         <div className='product-price'>${price}</div>

@@ -13,6 +13,8 @@ import { IProduct } from '../../shared/types/types';
 interface PropTypes {
   onClose?: () => void;
   onAddProduct?: (product: IProduct) => void;
+  onDelete?: () => void;
+  onMakeOrder?: () => void;
 }
 
 const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -44,14 +46,13 @@ const yupSchema = yup.object({
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const ModalProducts = (props: PropTypes) => {
-  const { onClose, onAddProduct } = props;
+  const { onClose, onAddProduct, onDelete, onMakeOrder } = props;
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
   } = useForm<YupSchemaType>({
     resolver: yupResolver(yupSchema),
     defaultValues: {
@@ -79,7 +80,6 @@ const ModalProducts = (props: PropTypes) => {
     const updatedSecImages = [...currentSecImages, ...Array.from(files)];
   
     setValue('secImages', updatedSecImages);
-  
   };
 
 
@@ -165,7 +165,15 @@ const ModalProducts = (props: PropTypes) => {
             {...register('desc')}
           />
         </div>
+        {onDelete 
+          ?
+        <>
+          <SubmitButton label="Delete" onClick={onDelete} />
+          <SubmitButton label="Make Order" onClick={onMakeOrder} />
+        </>
+          :
         <SubmitButton label="Create New" />
+        }
       </form>
     </Modal>
   );
