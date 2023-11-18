@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
+import { useCreateAdminMutation } from '../../entities/Admin/api/adminApi';
 
 const yupSchema = yup
     .object({
@@ -20,6 +21,7 @@ type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [ createAdmin ] = useCreateAdminMutation();
   const {
     register,
     handleSubmit,
@@ -35,12 +37,18 @@ const LoginForm = () => {
   const onError: SubmitErrorHandler<any> = async (value) => {
     console.log("Error", value)
   }
-  const onSubmitHandler: SubmitHandler<YupSchemaType> = async () => {
-      try {
-        navigate('/products');
-      } catch (e) {
-        console.log(e);
-      }
+  const onSubmitHandler: SubmitHandler<YupSchemaType> = async (value) => {
+    const {email, password} = value;
+
+    try {
+        await createAdmin({
+            email,
+            password
+        });
+      navigate('/products');
+    } catch (e) {
+      console.log(e);
+    }
   }
   return (
     <div className="form-container">
