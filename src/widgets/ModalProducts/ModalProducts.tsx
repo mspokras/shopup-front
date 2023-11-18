@@ -13,8 +13,7 @@ import { IProduct } from '../../shared/types/types';
 interface PropTypes {
   onClose?: () => void;
   onAddProduct?: (product: IProduct) => void;
-  onDelete?: () => void;
-  onMakeOrder?: () => void;
+  onDelete?: (product: IProduct) => void;
 }
 
 const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -46,7 +45,7 @@ const yupSchema = yup.object({
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const ModalProducts = (props: PropTypes) => {
-  const { onClose, onAddProduct, onDelete, onMakeOrder } = props;
+  const { onClose, onAddProduct, onDelete } = props;
 
   const {
     register,
@@ -98,6 +97,20 @@ const ModalProducts = (props: PropTypes) => {
     }
   };
   
+  const onDeleteHandler = () => {
+    const productData: IProduct = {
+      primImage: watch('primImage') as any,
+      secImages: watch('secImages') as any,
+      title: watch('title') as string,
+      price: Number(watch('price')),
+      desc: watch('desc') as string,
+    };
+    onDelete && onDelete(productData);
+  };
+
+  const onSaveChangesHandler = () => {
+    handleSubmit(onSubmitHandler)();
+  };
 
   return (
     <Modal onClose={onClose}>
@@ -167,10 +180,10 @@ const ModalProducts = (props: PropTypes) => {
         </div>
         {onDelete 
           ?
-        <>
-          <SubmitButton label="Delete" onClick={onDelete} />
-          <SubmitButton label="Make Order" onClick={onMakeOrder} />
-        </>
+        <div className='modal-buttons'>
+          <SubmitButton label="Delete" onClick={() => onDeleteHandler()} />
+          <SubmitButton label="Save Changes" onClick={() => onSaveChangesHandler()} />
+        </div>
           :
         <SubmitButton label="Create New" />
         }

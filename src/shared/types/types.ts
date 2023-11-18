@@ -4,6 +4,7 @@ export interface IProduct {
   desc?: string;
   title: string;
   price: number;
+  id?: number;
 }
 
 export interface ICustomer {

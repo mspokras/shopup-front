@@ -10,7 +10,10 @@ const SubmitButton = (props: PropTypes) => {
   const { label, onClick } = props;
 
   return (
-    <button className='submit-button' onClick={onClick}>{label}</button>
+    <button 
+      className='submit-button' 
+      onClick={onClick}
+    >{label}</button>
   );
 };
 

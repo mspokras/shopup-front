@@ -7,47 +7,50 @@ import { productsData } from './productsData';
 import { IProduct } from '../../shared/types/types';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
-import { useGetProductsQuery } from '../../entities/Product/api/productApi';
+// import { useGetProductsQuery } from '../../entities/Product/api/productApi';
 
 const ProductsPage = () => {
   const [isNewModalVisible, setNewModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [products, setProducts] = useState(productsData);
-  const [productsBack, setProductsBack] = useState([]);
-  const { data: productsBackData } = useGetProductsQuery();
+  const [productToEdit, setProductToEdit] = useState<IProduct>(productsData[0]);
+  // const [productsBack, setProductsBack] = useState([]);
+  // const { data: productsBackData } = useGetProductsQuery();
 
-  useEffect(() => {
-    if (productsBackData) {
-      setProductsBack(productsBackData);
-    }
-  }, [productsBackData]);
+  // useEffect(() => {
+  //   if (productsBackData) {
+  //     setProductsBack(productsBackData);
+  //   }
+  // }, [productsBackData]);
 
-  const getAllProducts = () => {
-    try {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      useGetProductsQuery();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getAllProducts = () => {
+  //   try {
+  //     // eslint-disable-next-line react-hooks/rules-of-hooks
+  //     useGetProductsQuery();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+  // useEffect(() => {
+  //   getAllProducts();
+  // }, []);
 
-  console.log(productsBack);
+  // console.log(productsBack);
 
-  const deleteProduct = (productId: number) => {
+  const deleteProduct = (productId: number | undefined) => {
     const updatedProducts = products.filter((product) => product.id !== productId);
     setProducts(updatedProducts);
+    setEditModalVisible(false);
   };
 
   const toggleNewProductModal = () => {
     setNewModalVisible(!isNewModalVisible);
   };
 
-  const toggleEditProductModal = () => {
+  const toggleEditProductModal = (product: IProduct) => {
     setEditModalVisible(!isEditModalVisible);
+    setProductToEdit(product);
   }
 
   const handleChangeProduct = (product: IProduct) => {
@@ -62,7 +65,7 @@ const ProductsPage = () => {
 
   const handleEditProduct = (product: IProduct) => {
     handleChangeProduct(product);
-    toggleEditProductModal();
+    toggleEditProductModal(product);
   }
 
   return (
@@ -74,7 +77,7 @@ const ProductsPage = () => {
             <ProductCard 
               key={product.id} 
               onDelete={() => deleteProduct(product.id)}
-              onEditClick={toggleEditProductModal}
+              onEditClick={() => toggleEditProductModal(product)}
               {...product} 
             />
           ))}
@@ -86,8 +89,9 @@ const ProductsPage = () => {
           />}
         {isEditModalVisible && 
           <ModalEditProduct 
-            onClose={toggleEditProductModal} 
-            onEditProduct={handleEditProduct} 
+            onClose={() => toggleEditProductModal(productToEdit)} 
+            onEditProduct={() => toggleEditProductModal(productToEdit)} 
+            onDeleteProduct={() => deleteProduct(productToEdit.id)}
           />}
       </TemplatePage>
     </div>

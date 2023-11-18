@@ -24,7 +24,7 @@ const ProductImage = (props: PropTypes) => {
         <img src={Trash} alt="trash" className="img-trash" />
       </div>
       <div className='icon-container icon-edit'>
-        <img src={Edit} alt="edit" className="img-edit" onClick={()=>onEditClick} />
+        <img src={Edit} alt="edit" className="img-edit" onClick={onEditClick} />
       </div>
     </div>
   );
