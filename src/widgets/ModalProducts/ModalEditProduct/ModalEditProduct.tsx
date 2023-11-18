@@ -7,15 +7,17 @@ interface PropTypes {
   onClose?: () => void;
   onEditProduct?: (product: IProduct) => void;
   onDeleteProduct?: (product: IProduct) => void;
+  productData?: IProduct;
 }
 
 const ModalEditProduct = (props: PropTypes) => {
-  const { onClose, onEditProduct, onDeleteProduct } = props;
+  const { onClose, onEditProduct, onDeleteProduct, productData } = props;
   return (
     <ModalProducts 
       onClose={onClose} 
       onAddProduct={onEditProduct} 
       onDelete={onDeleteProduct} 
+      productToEdit={productData}
     />
   );
 };

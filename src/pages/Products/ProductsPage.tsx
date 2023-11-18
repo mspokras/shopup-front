@@ -54,7 +54,7 @@ const ProductsPage = () => {
   }
 
   const handleChangeProduct = (product: IProduct) => {
-    const updatedProducts = [...products, { id: products.length + 1001, ...product }];
+    const updatedProducts = [...products, { id: products.length + 2000, ...product }];
     setProducts(updatedProducts);
   } 
 
@@ -77,7 +77,7 @@ const ProductsPage = () => {
             <ProductCard 
               key={product.id} 
               onDelete={() => deleteProduct(product.id)}
-              onEditClick={() => toggleEditProductModal(product)}
+              onEditClick={() => handleEditProduct(product)}
               {...product} 
             />
           ))}
@@ -92,6 +92,7 @@ const ProductsPage = () => {
             onClose={() => toggleEditProductModal(productToEdit)} 
             onEditProduct={() => toggleEditProductModal(productToEdit)} 
             onDeleteProduct={() => deleteProduct(productToEdit.id)}
+            productData={productToEdit}
           />}
       </TemplatePage>
     </div>

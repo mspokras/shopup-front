@@ -14,6 +14,7 @@ interface PropTypes {
   onClose?: () => void;
   onAddProduct?: (product: IProduct) => void;
   onDelete?: (product: IProduct) => void;
+  productToEdit?: IProduct | null;
 }
 
 const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -45,7 +46,7 @@ const yupSchema = yup.object({
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const ModalProducts = (props: PropTypes) => {
-  const { onClose, onAddProduct, onDelete } = props;
+  const { onClose, onAddProduct, onDelete, productToEdit } = props;
 
   const {
     register,
@@ -60,6 +61,7 @@ const ModalProducts = (props: PropTypes) => {
       primImage: undefined,
       secImages: undefined,
       desc: '',
+      ...productToEdit
     },
   });
 
@@ -108,9 +110,16 @@ const ModalProducts = (props: PropTypes) => {
     onDelete && onDelete(productData);
   };
 
-  const onSaveChangesHandler = () => {
-    handleSubmit(onSubmitHandler)();
+  const onSaveChangesHandler = async () => {
+    try {
+      await handleSubmit(onSubmitHandler)();
+      onClose && onClose(); 
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  console.log(productToEdit);
 
   return (
     <Modal onClose={onClose}>
@@ -118,7 +127,7 @@ const ModalProducts = (props: PropTypes) => {
         <div className="modal-pictures">
           {primImage ? (
             <img
-              src={URL.createObjectURL(primImage)}
+              src={productToEdit ? primImage : URL.createObjectURL(primImage)}
               alt="prim-img"
               className="prim-image"
             />
@@ -139,7 +148,7 @@ const ModalProducts = (props: PropTypes) => {
             {Array.from(secImages).slice(0, 9).map((image: any, index: number) => (
               <img
                 key={index}
-                src={URL.createObjectURL(image)}
+                src={productToEdit ? secImages[index] : URL.createObjectURL(image)}
                 alt="img-extra"
                 className="img-extra"
               />
