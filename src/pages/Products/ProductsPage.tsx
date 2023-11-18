@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ProductsPage.scss';
 import TemplatePage from '../TemplatePage/TemplatePage';
 import ProductCard from '../../widgets/ProductCard/ProductCard';
@@ -7,11 +7,35 @@ import { productsData } from './productsData';
 import { IProduct } from '../../shared/types/types';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
+import { useGetProductsQuery } from '../../entities/Product/api/productApi';
 
 const ProductsPage = () => {
   const [isNewModalVisible, setNewModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [products, setProducts] = useState(productsData);
+  const [productsBack, setProductsBack] = useState([]);
+  const { data: productsBackData } = useGetProductsQuery();
+
+  useEffect(() => {
+    if (productsBackData) {
+      setProductsBack(productsBackData);
+    }
+  }, [productsBackData]);
+
+  const getAllProducts = () => {
+    try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useGetProductsQuery();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  console.log(productsBack);
 
   const deleteProduct = (productId: number) => {
     const updatedProducts = products.filter((product) => product.id !== productId);
