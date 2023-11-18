@@ -4,7 +4,7 @@ import TemplatePage from '../TemplatePage/TemplatePage';
 import ProductCard from '../../widgets/ProductCard/ProductCard';
 import PlusButton from '../../shared/components/Button/PlusButton/PlusButton';
 import { productsData } from './productsData';
-import { IProduct } from '../../shared/types/types';
+import { IProduct } from '../../entities/Product/product.models';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
 // import { useGetProductsQuery } from '../../entities/Product/api/productApi';
@@ -25,7 +25,7 @@ const ProductsPage = () => {
 
   // const getAllProducts = () => {
   //   try {
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
+  //     eslint-disable-next-line react-hooks/rules-of-hooks
   //     useGetProductsQuery();
   //   } catch (e) {
   //     console.log(e);
@@ -54,7 +54,7 @@ const ProductsPage = () => {
   }
 
   const handleChangeProduct = (product: IProduct) => {
-    const updatedProducts = [...products, { id: products.length + 2000, ...product }];
+    const updatedProducts = [...products, { id: products.length, ...product }];
     setProducts(updatedProducts);
   } 
 
@@ -64,9 +64,14 @@ const ProductsPage = () => {
   }
 
   const handleEditProduct = (product: IProduct) => {
-    handleChangeProduct(product);
-    toggleEditProductModal(product);
-  }
+
+    console.log('Making changes:', product);
+    const updatedProducts = products.map((existingProduct: IProduct) =>
+      existingProduct.id === product.id ? { ...existingProduct, ...product } : existingProduct
+    );
+    setProducts(updatedProducts);
+    setEditModalVisible(false);
+  };
 
   return (
     <div className='products-page'>
@@ -90,7 +95,7 @@ const ProductsPage = () => {
         {isEditModalVisible && 
           <ModalEditProduct 
             onClose={() => toggleEditProductModal(productToEdit)} 
-            onEditProduct={() => toggleEditProductModal(productToEdit)} 
+            onEditProduct={() => handleEditProduct(productToEdit)} 
             onDeleteProduct={() => deleteProduct(productToEdit.id)}
             productData={productToEdit}
           />}

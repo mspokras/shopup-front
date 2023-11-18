@@ -6,7 +6,7 @@ import Modal from '../../shared/components/Modal/Modal';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ICustomer } from '../../shared/types/types';
+import { ICustomer } from '../../entities/User/user.models';
 
 interface PropTypes {
   onClose: () => void;

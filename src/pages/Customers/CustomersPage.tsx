@@ -5,7 +5,7 @@ import './CustomersPage.scss';
 import customersData from './customersData.json';
 import CustomersListItem from '../../shared/components/ListItem/CustomersListItem/CustomersListItem';
 import ModalCustomers from '../../widgets/ModalCustomers/ModalCustomers';
-import { ICustomer } from '../../shared/types/types';
+import { ICustomer } from '../../entities/User/user.models';
 
 const CustomersPage = () => {
   const [isModalVisible, setModalVisible] = useState(false);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ModalProducts from '../ModalProducts';
 import './ModalEditProduct.scss';
-import { IProduct } from '../../../shared/types/types';
+import { IProduct } from '../../../entities/Product/product.models';
 
 interface PropTypes {
   onClose?: () => void;

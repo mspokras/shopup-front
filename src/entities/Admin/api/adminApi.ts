@@ -6,7 +6,7 @@ interface CreateAdminRequest {
     password: string;
 }
 
-const adminConfig={
+const adminConfig = {
     ...baseQueryConfig,
     baseUrl: baseQueryConfig.baseUrl+'/admin'
 }

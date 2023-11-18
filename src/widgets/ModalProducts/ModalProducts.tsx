@@ -8,7 +8,7 @@ import TextArea from '../../shared/components/TextArea/TextArea';
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { IProduct } from '../../shared/types/types';
+import { IProduct } from '../../entities/Product/product.models';
 
 interface PropTypes {
   onClose?: () => void;
