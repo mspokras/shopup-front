@@ -57,18 +57,17 @@ const ProductsPage = () => {
     };
 
     handleChangeProduct(product);  
-    addProductMutation(productData).unwrap();
+    // addProductMutation(productData).unwrap();
     toggleNewProductModal();
   }
 
   const handleEditProduct = (product: IProduct) => {
-
-    console.log('Making changes:', product);
-    // const updatedProducts = products.map((existingProduct: IProduct) =>
-    //   existingProduct.id === product.id ? { ...existingProduct, ...product } : existingProduct
+    toggleEditProductModal(product);
+    // const updatedProducts = productsBack.map((existingProduct: IProduct) =>
+    //   existingProduct._id === product._id ? { ...existingProduct, ...product } : existingProduct
     // );
-    // setProducts(updatedProducts);
-    setEditModalVisible(false);
+    // setProductsBack(updatedProducts);
+    // console.log(productsBack);
   };
 
   return (

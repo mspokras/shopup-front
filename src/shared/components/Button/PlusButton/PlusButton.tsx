@@ -10,7 +10,7 @@ interface PropTypes {
 const PlusButton = forwardRef<HTMLButtonElement, PropTypes>((props: PropTypes, ref: any) => {
   const { onClick, bottomLabel } = props;
   return (
-    <button className='plus-button' onClick={onClick} ref={ref}>
+    <button className='plus-button' onClick={onClick} ref={ref} type="button">
       <img src={Plus} alt="plus" />
       {bottomLabel && <div className='bottom-label'>{bottomLabel}</div>}
     </button>

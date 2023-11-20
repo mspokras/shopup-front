@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { Session } from "../User/user.slice";
+import { Session } from "./admin.slice";
 const userTokenKey = "token";
 
 export interface CreateAdminResponse {

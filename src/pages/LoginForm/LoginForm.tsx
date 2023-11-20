@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
 import { adminApi, useCreateAdminMutation } from '../../entities/Admin/api/adminApi';
 import { saveToken } from '../../entities/Admin/admin.models';
-import { logIn } from '../../entities/User/user.slice';
+import { logIn } from '../../entities/Admin/admin.slice';
 import { useAppDispatch } from '../../store/store';
 
 const yupSchema = yup

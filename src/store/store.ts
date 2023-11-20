@@ -3,7 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { adminApi } from "../entities/Admin/api/adminApi";
 import { productApi } from "../entities/Product/api/productApi";
 import { orderApi } from "../entities/Order/api/orderApi";
-import { userAuthSlice } from "../entities/User/user.slice";
+import { userAuthSlice } from "../entities/Admin/admin.slice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({

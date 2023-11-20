@@ -137,7 +137,7 @@ const ModalProducts = (props: PropTypes) => {
             {Array.from(images).slice(1, 10).map((image: any, index: number) => (
               <img
                 key={index}
-                src={URL.createObjectURL(image)}
+                src={productToEdit ? images[index] : URL.createObjectURL(image)}
                 alt="img-extra"
                 className="img-extra"
               />
@@ -179,11 +179,11 @@ const ModalProducts = (props: PropTypes) => {
         {onDelete 
           ?
         <div className='modal-buttons'>
-          <SubmitButton label="Delete" onClick={() => onDeleteHandler()} />
-          <SubmitButton label="Save Changes" onClick={() => onSaveChangesHandler()} />
+          <SubmitButton label="Delete" onClick={() => onDeleteHandler()} type="button" />
+          <SubmitButton label="Save Changes" onClick={() => onSaveChangesHandler()} type="button" />
         </div>
           :
-        <SubmitButton label="Create New" />
+        <SubmitButton label="Create New" type="submit" />
         }
       </form>
     </Modal>

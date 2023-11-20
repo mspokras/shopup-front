@@ -55,11 +55,3 @@ export const {
   useCreateAdminMutation,
   useChangeEmailMutation,
   useChangePasswordMutation } = adminApi
-
-function useAppDispatch() {
-  throw new Error('Function not implemented.');
-}
-function useAppSelector() {
-  throw new Error('Function not implemented.');
-}
-

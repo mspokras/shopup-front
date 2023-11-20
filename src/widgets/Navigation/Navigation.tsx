@@ -5,7 +5,7 @@ import NavLink from '../../shared/components/Link/NavLink/NavLink';
 import { useNavigate } from 'react-router-dom';
 import { removeItem } from '../../entities/Admin/admin.models';
 import { useAppDispatch } from '../../store/store';
-import { logOut } from '../../entities/User/user.slice';
+import { logOut } from '../../entities/Admin/admin.slice';
 
 const Navigation = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
-import { getToken } from "../Admin/admin.models";
+import { getToken } from "./admin.models";
 import { RootState } from "../../store/store";
 
 export interface Session {
