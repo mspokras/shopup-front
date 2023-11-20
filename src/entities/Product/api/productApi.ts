@@ -39,18 +39,20 @@ export const productApi = createApi({
       }),
       providesTags: ['Product'],
     }),
-    addProduct: builder.mutation<any, CreateProductRequest>({
+    addProduct: builder.mutation<any, FormData>({
       query: (data) => ({
         url: '/add',
         method: 'PATCH',
+        headers: {},
         body: data,
       }),
       invalidatesTags: ['Product'],
     }),
     deleteProduct: builder.mutation<any, string>({
       query: (id) => ({
-        url: `/remove/${id}`,
+        url: `/remove`,
         method: 'DELETE',
+        params: {id}
       }),
       invalidatesTags: ['Product'],
     })

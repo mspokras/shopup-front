@@ -3,6 +3,7 @@ import TemplatePage from '../TemplatePage/TemplatePage';
 import './OrdersPage.scss';
 import { ordersData } from './ordersData.ts';
 import OrdersListItem from '../../shared/components/ListItem/OrdersListItem/OrdersListItem';
+// import { useGetOrdersQuery } from '../../entities/Order/api/orderApi.ts';
 
 const OrdersPage = () => {
   return (

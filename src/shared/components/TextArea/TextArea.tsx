@@ -7,9 +7,9 @@ interface PropTypes {
   placeholder?: string;
 }
 const TextArea = forwardRef<HTMLTextAreaElement, PropTypes>((props: PropTypes, ref: any) => {
-  const { className, placeholder } = props;
+  const { className, placeholder, ...rest } = props;
   return (
-    <textarea className={classNames('textarea', className)} placeholder={placeholder} ref={ref} />
+    <textarea className={classNames('textarea', className)} placeholder={placeholder} ref={ref} {...rest} />
   );
 });
 

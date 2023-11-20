@@ -23,11 +23,11 @@ const ProductsPage = () => {
     }
   }, [productsBackData]);
 
-  const deleteProduct = (productId: string | undefined) => {
+  const deleteProduct = (productId?: string) => {
     const updatedProducts = productsBack.filter((product: IProduct) => product._id !== productId);
     setProductsBack(updatedProducts);
     setEditModalVisible(false);
-    // deleteProductMutation(productId);
+    productId && deleteProductMutation(productId);
   };
 
   const toggleNewProductModal = () => {
@@ -46,19 +46,28 @@ const ProductsPage = () => {
     setProductsBack(updatedProducts);
   } 
 
-  const handleAddProduct = async (product: IProduct) => {
+  const handleAddProduct = (product: IProduct) => {
     const { name, description, price, images } = product
 
     const productData: any = {
       name,
-      description: description || '',
+      description: description,
       price,
       images, 
     };
 
+    let formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("price", product.price.toString());
+    if (product.description) formData.append("description", product.description);
+    for (let i = 0; i < product.images.length; i++) {
+      formData.append("files", product.images[i]);
+    };
+
     handleChangeProduct(product);  
-    // addProductMutation(productData).unwrap();
+    addProductMutation(formData).unwrap();
     toggleNewProductModal();
+    console.log(product);
   }
 
   const handleEditProduct = (product: IProduct) => {
@@ -92,7 +101,7 @@ const ProductsPage = () => {
         {isEditModalVisible && 
           <ModalEditProduct 
             onClose={() => toggleEditProductModal(productToEdit)} 
-            onEditProduct={() => handleEditProduct(productToEdit)} 
+            onEditProduct={handleAddProduct} 
             onDeleteProduct={() => deleteProduct(productToEdit._id)}
             productData={productToEdit}
           />}
