@@ -67,7 +67,7 @@
       display: flex;
       gap: 12px;
 
-      .price-input, .title-input {
+      .price-input, .name-input {
         height: 100%;
       }
 
@@ -75,7 +75,7 @@
         max-width: 150px;
       }
 
-      .title-input {
+      .name-input {
         flex-grow: 1
       }
     }

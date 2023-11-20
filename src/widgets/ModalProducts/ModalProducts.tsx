@@ -23,23 +23,20 @@ const yupSchema = yup.object({
   price: yup.number().required('Price is required'),
   name: yup.string().required('Product name is required'),
   description: yup.string(),
-  primImage: yup
+  images: yup
     .mixed()
-    .required('Primary image is required')
-    .test('fileFormat', 'Invalid file format', (value: any) => {
-    if (!value) return false; 
-    return validFileFormats.includes(value.type);
-  }),
-  secImages: yup
-    .mixed()
+    .required('At least one image is required')
     .test('fileFormat', 'Invalid file format', (value: any) => {
       if (!value || value.length === 0) {
         return true;
       }
-      return value.length <= 9 && Array.from(value).every((file: any) => validFileFormats.includes(file.type))
+      return value.length <= 10 && Array.from(value).every((file: any) => validFileFormats.includes(file.type))
+    })
+    .test('minImages', 'You need to add at least 1 picture', (value: any) => {
+      return !value || value.length > 0;
     })
     .test('maxImages', 'You can add maximum 9 additional pictures', (value: any) => {
-      return !value || value.length <= 9;
+      return !value || value.length <= 10;
     }),
 });
 
@@ -58,37 +55,32 @@ const ModalProducts = (props: PropTypes) => {
     defaultValues: {
       price: 0,
       name: '',
-      primImage: undefined,
-      secImages: undefined,
+      images: undefined,
       description: '',
       ...productToEdit
     },
   });
 
-  const fileInputRefPrim = useRef<HTMLInputElement | null>(null);
-  const fileInputRefSec = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRefSmall = useRef<HTMLInputElement | null>(null);
 
-  const primImage: any = watch('primImage');
-  const secImages: any = watch('secImages') || [];
+  const images: any = watch('images') || [];
 
-  const handlePrimImageChange = (file: File) => {
-    setValue('primImage', file);
-  };
+  const handleImagesChange = (files: FileList, isSmall: boolean = false) => {
+    const currentSecImages: any = watch('images') || [];
 
-  const handleSecImagesChange = (files: FileList) => {
-    const currentSecImages: any = watch('secImages') || [];
+    const updatedSecImages = isSmall
+    ? [...currentSecImages.slice(0, 1), ...Array.from(files)]
+    : [files[0], ...currentSecImages.slice(1)];
 
-    const updatedSecImages = [...currentSecImages, ...Array.from(files)];
-  
-    setValue('secImages', updatedSecImages);
+    setValue('images', updatedSecImages);
   };
 
 
   const onSubmitHandler: SubmitHandler<YupSchemaType> = async (data) => {
     try {
       const productData: IProduct = {
-        primImage: data.primImage as any, 
-        secImages: data.secImages as any,
+        images: data.images as any,
         name: data.name as string,
         price: Number(data.price),
         description: data.description as string,
@@ -101,8 +93,7 @@ const ModalProducts = (props: PropTypes) => {
   
   const onDeleteHandler = () => {
     const productData: IProduct = {
-      primImage: watch('primImage') as any,
-      secImages: watch('secImages') as any,
+      images: watch('images') as any,
       name: watch('name') as string,
       price: Number(watch('price')),
       description: watch('description') as string,
@@ -119,51 +110,49 @@ const ModalProducts = (props: PropTypes) => {
     }
   };
 
-  console.log(productToEdit);
-
   return (
     <Modal onClose={onClose}>
       <form className="modal-products" onSubmit={handleSubmit(onSubmitHandler)}>
         <div className="modal-pictures">
-          {primImage ? (
+          {images[0] ? (
             <img
-              src={productToEdit ? primImage : URL.createObjectURL(primImage)}
+              src={productToEdit ? images[0] : URL.createObjectURL(images[0])}
               alt="prim-img"
               className="prim-image"
             />
           ) : (
             <PlusButton
               bottomLabel="Add Cover"
-              onClick={() => fileInputRefPrim?.current?.click()}
+              onClick={() => fileInputRef?.current?.click()}
             />
           )}
           <input
             type="file"
             accept="image/*"
             style={{ display: 'none' }}
-            ref={fileInputRefPrim}
-            onChange={(e: any) => handlePrimImageChange(e.target.files && e.target.files[0])}
+            ref={fileInputRef}
+            onChange={(e: any) => handleImagesChange(e.target.files, false)}
           />
           <div className="pictures-small">
-            {Array.from(secImages).slice(0, 9).map((image: any, index: number) => (
+            {Array.from(images).slice(1, 10).map((image: any, index: number) => (
               <img
                 key={index}
-                src={productToEdit ? secImages[index] : URL.createObjectURL(image)}
+                src={URL.createObjectURL(image)}
                 alt="img-extra"
                 className="img-extra"
               />
             ))}
-            {secImages.length < 9 && (
+            {images.length < 10 && (
               <PlusButton
-                onClick={() => fileInputRefSec?.current?.click()}
+                onClick={() => fileInputRefSmall?.current?.click()}
               />
             )}
             <input
               type="file"
               accept="image/*"
               style={{ display: 'none' }}
-              ref={fileInputRefSec}
-              onChange={(e:any) => handleSecImagesChange(e.target.files)}
+              ref={fileInputRefSmall}
+              onChange={(e: any) => handleImagesChange(e.target.files, true)}
               multiple
             />
           </div>
@@ -176,7 +165,7 @@ const ModalProducts = (props: PropTypes) => {
               className='price-input' 
             />
             <FormInput 
-              placeholder='TItle' 
+              placeholder='Title' 
               {...register('name')}
               className='name-input' 
             />

@@ -1,8 +1,15 @@
 export interface IProduct {
-  primImage: any;
-  secImages?: any;
+  images: File[] | string[];
   description?: string;
   name: string;
   price: number;
-  id?: number | undefined;
+  _id?: string | undefined;
 }
+
+export const emptyProduct: IProduct = {
+  images: [],
+  description: "",
+  name: "",
+  price: 0,
+  _id: undefined,
+};

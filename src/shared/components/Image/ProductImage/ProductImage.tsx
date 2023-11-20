@@ -4,7 +4,7 @@ import Trash from '../../../../assets/icons/Trash.svg';
 import Edit from '../../../../assets/icons/Edit.svg';
 
 interface PropTypes {
-  image: string;
+  image: File | string;
   onDelete: () => void;
   onEditClick: () => void;
 }
@@ -15,9 +15,12 @@ const ProductImage = (props: PropTypes) => {
   const handleDeleteClick = () => {
     onDelete();
   };
+
+  const imageUrl: string = image instanceof File ? URL.createObjectURL(image) : image;
+
   return (
     <div className='product-image-container'>
-      <img src={image} alt="product" className="img-product" />
+      <img src={imageUrl} alt="product" className="img-product" />
       <div className='icon-container icon-trash' onClick={handleDeleteClick}>
         <img src={Trash} alt="trash" className="img-trash" />
       </div>

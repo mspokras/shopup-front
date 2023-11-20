@@ -3,19 +3,19 @@ import './ProductsPage.scss';
 import TemplatePage from '../TemplatePage/TemplatePage';
 import ProductCard from '../../widgets/ProductCard/ProductCard';
 import PlusButton from '../../shared/components/Button/PlusButton/PlusButton';
-import { productsData } from './productsData';
-import { IProduct } from '../../entities/Product/product.models';
+import { IProduct, emptyProduct } from '../../entities/Product/product.models';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
-import { useGetProductsQuery } from '../../entities/Product/api/productApi';
+import { useGetProductsQuery, useAddProductMutation, useDeleteProductMutation } from '../../entities/Product/api/productApi';
 
 const ProductsPage = () => {
   const [isNewModalVisible, setNewModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
-  // const [mockedProducts, setMockedProducts] = useState(productsData);
-  const [productToEdit, setProductToEdit] = useState<IProduct>(productsData[0]);
-  const [productsBack, setProductsBack] = useState([]);
+  const [productToEdit, setProductToEdit] = useState<IProduct>(emptyProduct);
+  const [productsBack, setProductsBack] = useState<IProduct[]>([]);
   const { data: productsBackData } = useGetProductsQuery();
+  const [addProductMutation] = useAddProductMutation();
+  const [deleteProductMutation] = useDeleteProductMutation();
 
   useEffect(() => {
     if (productsBackData) {
@@ -23,12 +23,11 @@ const ProductsPage = () => {
     }
   }, [productsBackData]);
 
-  console.log(productsBack);
-
-  const deleteProduct = (productId: number | undefined) => {
-    const updatedProducts = productsBack.filter((product) => product["_id"] !== productId);
+  const deleteProduct = (productId: string | undefined) => {
+    const updatedProducts = productsBack.filter((product: IProduct) => product._id !== productId);
     setProductsBack(updatedProducts);
     setEditModalVisible(false);
+    // deleteProductMutation(productId);
   };
 
   const toggleNewProductModal = () => {
@@ -41,12 +40,24 @@ const ProductsPage = () => {
   }
 
   const handleChangeProduct = (product: IProduct) => {
-    const updatedProducts = [...productsBack, { id: productsBack.length, ...product }];
-    // setProducts(updatedProducts);
+    console.log(product);
+    const updatedProducts = [...productsBack, { _id: productsBack.length.toString(), ...product }];
+    console.log(updatedProducts);
+    setProductsBack(updatedProducts);
   } 
 
-  const handleAddProduct = (product: IProduct) => {
-    handleChangeProduct(product);
+  const handleAddProduct = async (product: IProduct) => {
+    const { name, description, price, images } = product
+
+    const productData: any = {
+      name,
+      description: description || '',
+      price,
+      images, 
+    };
+
+    handleChangeProduct(product);  
+    addProductMutation(productData).unwrap();
     toggleNewProductModal();
   }
 
@@ -83,7 +94,7 @@ const ProductsPage = () => {
           <ModalEditProduct 
             onClose={() => toggleEditProductModal(productToEdit)} 
             onEditProduct={() => handleEditProduct(productToEdit)} 
-            onDeleteProduct={() => deleteProduct(productToEdit.id)}
+            onDeleteProduct={() => deleteProduct(productToEdit._id)}
             productData={productToEdit}
           />}
       </TemplatePage>
