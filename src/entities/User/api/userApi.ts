@@ -2,13 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryConfig } from "../../../shared/api/api";
 import { getToken } from '../../Admin/admin.models';
 
-interface CreateAdminRequest {
-    email: string;
-    firstName: string;
-    lastName: string;
-    companyName: string;
-}
-
 const userConfig = {
     ...baseQueryConfig,
     baseUrl: baseQueryConfig.baseUrl+'/user',
@@ -19,11 +12,18 @@ const userConfig = {
     },
 }
 
-export const adminApi = createApi({
+export const userApi = createApi({
   reducerPath: 'userApi',
   tagTypes: ['User'],
   baseQuery: fetchBaseQuery(userConfig),
   endpoints: (builder) => ({
+    getUsers: builder.query<any, void>({
+      query: () => ({
+        url: '/get/all',
+        method: 'GET',
+      }),
+      providesTags: ['User'],
+    }),
     createUser: builder.mutation<any, any>({
       query: (data) => ({
         url: '/add',
@@ -32,11 +32,19 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    deleteUser: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/remove`,
+        method: 'DELETE',
+        params: {id}
+      }),
+      invalidatesTags: ['User'],
+    })
   }),
 })
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const {
-  useCreateUserMutation } = adminApi
+  useGetUsersQuery,
+  useCreateUserMutation,
+  useDeleteUserMutation } = userApi
 

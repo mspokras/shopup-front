@@ -2,14 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryConfig } from "../../../shared/api/api";
 import { getToken } from '../../Admin/admin.models';
 
-interface CreateProductRequest {
-  productId?: string | undefined;
-  name: string; 
-  description?: string;
-  price: number;
-  images?: any;
-}
-
 const productConfig = {
     ...baseQueryConfig,
     baseUrl: baseQueryConfig.baseUrl+'/product',

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryConfig } from "../../../shared/api/api";
+import { getToken } from '../../Admin/admin.models';
 
 interface CreateOrderRequest {
   orderId: number;
@@ -10,7 +11,12 @@ interface CreateOrderRequest {
 
 const orderConfig = {
     ...baseQueryConfig,
-    baseUrl: baseQueryConfig.baseUrl+'/order'
+    baseUrl: baseQueryConfig.baseUrl+'/order',
+    prepareHeaders: (headers: Headers) => {
+      const session = getToken();
+      headers.set('Authorization', `Bearer ${session.token}`);
+      return headers;
+    },
 }
 
 export const orderApi = createApi({

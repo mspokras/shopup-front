@@ -47,15 +47,6 @@ const ProductsPage = () => {
   } 
 
   const handleAddProduct = (product: IProduct) => {
-    const { name, description, price, images } = product
-
-    const productData: any = {
-      name,
-      description: description,
-      price,
-      images, 
-    };
-
     let formData = new FormData();
     formData.append("name", product.name);
     formData.append("price", product.price.toString());

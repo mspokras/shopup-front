@@ -17,7 +17,7 @@ const yupSchema = yup.object({
   email: yup.string().email('Please enter a valid email').required('Email is required'),
   firstName: yup.string().required('First Name is required'),
   lastName: yup.string().required('Last Name is required'),
-  company: yup.string().required('Company is required'),
+  companyName: yup.string().required('Company is required'),
 });
 
 type YupSchemaType = yup.InferType<typeof yupSchema>;
@@ -34,7 +34,7 @@ const ModalCustomers = (props: PropTypes) => {
       email: '',
       firstName: '',
       lastName: '',
-      company: '',
+      companyName: '',
     },
   });
 
@@ -68,8 +68,8 @@ const ModalCustomers = (props: PropTypes) => {
           />
           <FormInput
             placeholder='Company'
-            {...register('company')}
-            error={errors.company?.message}
+            {...register('companyName')}
+            error={errors.companyName?.message}
           />
         </div>  
         <SubmitButton label="Add New" />

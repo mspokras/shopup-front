@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TemplatePage from '../TemplatePage/TemplatePage';
 import './OrdersPage.scss';
 import { ordersData } from './ordersData.ts';
 import OrdersListItem from '../../shared/components/ListItem/OrdersListItem/OrdersListItem';
-// import { useGetOrdersQuery } from '../../entities/Order/api/orderApi.ts';
+import { useGetOrdersQuery } from '../../entities/Order/api/orderApi.ts';
 
 const OrdersPage = () => {
+  const { data: ordersBackData } = useGetOrdersQuery(); 
+  const [ordersBack, setOrdersBack] = useState();
+
+  useEffect(() => {
+    if (ordersBackData) {
+      setOrdersBack(ordersBackData);
+    }
+  }, [ordersBackData]);
+
+  console.log(ordersBack);
+  
   return (
     <div className='orders-page'>
       <TemplatePage title="Orders">
