@@ -9,7 +9,10 @@ import * as yup from "yup";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
-import { useCreateAdminMutation } from '../../entities/Admin/api/adminApi';
+import { adminApi, useCreateAdminMutation } from '../../entities/Admin/api/adminApi';
+import { saveToken } from '../../entities/Admin/admin.models';
+import { logIn } from '../../entities/User/user.slice';
+import { useAppDispatch } from '../../store/store';
 
 const yupSchema = yup
     .object({
@@ -21,6 +24,8 @@ type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch: any = useAppDispatch();
+
   const [ createAdmin ] = useCreateAdminMutation();
   const {
     register,
@@ -41,10 +46,13 @@ const LoginForm = () => {
     const {email, password} = value;
 
     try {
-        await createAdmin({
+        const response = await createAdmin({
             email,
             password
-        });
+        }).unwrap();
+        saveToken(response.token);
+        dispatch(logIn());
+        dispatch(adminApi.util.resetApiState());
       navigate('/products');
     } catch (e) {
       console.log(e);

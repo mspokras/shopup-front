@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryConfig } from "../../../shared/api/api";
+import { getToken } from '../../Admin/admin.models';
 
 interface CreateProductRequest {
   productId: number; 
@@ -10,7 +11,12 @@ interface CreateProductRequest {
 
 const productConfig = {
     ...baseQueryConfig,
-    baseUrl: baseQueryConfig.baseUrl+'/product'
+    baseUrl: baseQueryConfig.baseUrl+'/product',
+    prepareHeaders: (headers: Headers) => {
+      const session = getToken();
+      headers.set('Authorization', `Bearer ${session.token}`);
+      return headers;
+    },
 }
 
 export const productApi = createApi({

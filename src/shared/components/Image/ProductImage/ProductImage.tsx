@@ -12,7 +12,8 @@ interface PropTypes {
 
 const ProductImage = (props: PropTypes) => {
   const { image, onDelete, onEditClick, external } = props;
-  const imageUrl: string = external ? image : URL.createObjectURL(image);
+  const firstImg: any = Array.isArray(image)  && image.length > 0 ? image[0] : image;
+  const imageUrl: string = external ? firstImg : URL.createObjectURL(image);
   
   const handleDeleteClick = () => {
     onDelete();

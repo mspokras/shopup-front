@@ -7,36 +7,44 @@ import { productsData } from './productsData';
 import { IProduct } from '../../entities/Product/product.models';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
-// import { useGetProductsQuery } from '../../entities/Product/api/productApi';
+import { useGetProductsQuery } from '../../entities/Product/api/productApi';
+import { getToken } from '../../entities/Admin/admin.models';
 
 const ProductsPage = () => {
   const [isNewModalVisible, setNewModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [products, setProducts] = useState(productsData);
   const [productToEdit, setProductToEdit] = useState<IProduct>(productsData[0]);
-  // const [productsBack, setProductsBack] = useState([]);
-  // const { data: productsBackData } = useGetProductsQuery();
+  const [productsBack, setProductsBack] = useState([]);
+  const { data: productsBackData } = useGetProductsQuery();
 
-  // useEffect(() => {
-  //   if (productsBackData) {
-  //     setProductsBack(productsBackData);
-  //   }
-  // }, [productsBackData]);
+  useEffect(() => {
+    if (productsBackData) {
+      setProductsBack(productsBackData);
+    }
+  }, [productsBackData]);
 
-  // const getAllProducts = () => {
-  //   try {
-  //     eslint-disable-next-line react-hooks/rules-of-hooks
-  //     useGetProductsQuery();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const getAllProducts = async () => {
+    try {
+      const token = getToken().token;
+      if (!token) {
+        console.log('no token');
+         return;
+      }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const result = await useGetProductsQuery();
+      console.log(result);
+   } catch (e) {
+      console.error(e);
+   }
+ };
+ 
 
-  // useEffect(() => {
-  //   getAllProducts();
-  // }, []);
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
-  // console.log(productsBack);
+  console.log(productsBack);
 
   const deleteProduct = (productId: number | undefined) => {
     const updatedProducts = products.filter((product) => product.id !== productId);

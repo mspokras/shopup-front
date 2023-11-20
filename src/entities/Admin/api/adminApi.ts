@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryConfig } from "../../../shared/api/api";
+import { CreateAdminResponse, getToken } from '../admin.models';
 
 interface CreateAdminRequest {
     email: string;
@@ -8,7 +9,12 @@ interface CreateAdminRequest {
 
 const adminConfig = {
     ...baseQueryConfig,
-    baseUrl: baseQueryConfig.baseUrl+'/admin'
+    baseUrl: baseQueryConfig.baseUrl+'/admin',
+    prepareHeaders: (headers: Headers) => {
+      const session = getToken();
+      headers.set('Authorization', `Bearer ${session.token}`);
+      return headers;
+    },
 }
 
 export const adminApi = createApi({
@@ -16,7 +22,7 @@ export const adminApi = createApi({
   tagTypes: ['Admin'],
   baseQuery: fetchBaseQuery(adminConfig),
   endpoints: (builder) => ({
-    createAdmin: builder.mutation<any, CreateAdminRequest>({
+    createAdmin: builder.mutation<CreateAdminResponse, CreateAdminRequest>({
       query: (data) => ({
         url: '/login',
         method: 'POST',
@@ -49,3 +55,11 @@ export const {
   useCreateAdminMutation,
   useChangeEmailMutation,
   useChangePasswordMutation } = adminApi
+
+function useAppDispatch() {
+  throw new Error('Function not implemented.');
+}
+function useAppSelector() {
+  throw new Error('Function not implemented.');
+}
+

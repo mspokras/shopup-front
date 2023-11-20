@@ -3,10 +3,16 @@ import './Navigation.scss';
 import NavButton from '../../shared/components/Button/NavButton/NavButton';
 import NavLink from '../../shared/components/Link/NavLink/NavLink';
 import { useNavigate } from 'react-router-dom';
+import { removeItem } from '../../entities/Admin/admin.models';
+import { useAppDispatch } from '../../store/store';
+import { logOut } from '../../entities/User/user.slice';
 
 const Navigation = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const handleLogOut = () => {
+    removeItem();
+    dispatch(logOut());
     navigate('/login');
   }
 
