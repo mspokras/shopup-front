@@ -1,4 +1,4 @@
-import { PayloadAction, createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
+import { createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
 import { getToken } from "../Admin/admin.models";
 import { RootState } from "../../store/store";
 

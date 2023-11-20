@@ -8,12 +8,11 @@ import { IProduct } from '../../entities/Product/product.models';
 import ModalProducts from '../../widgets/ModalProducts/ModalProducts';
 import ModalEditProduct from '../../widgets/ModalProducts/ModalEditProduct/ModalEditProduct';
 import { useGetProductsQuery } from '../../entities/Product/api/productApi';
-import { getToken } from '../../entities/Admin/admin.models';
 
 const ProductsPage = () => {
   const [isNewModalVisible, setNewModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
-  const [products, setProducts] = useState(productsData);
+  // const [mockedProducts, setMockedProducts] = useState(productsData);
   const [productToEdit, setProductToEdit] = useState<IProduct>(productsData[0]);
   const [productsBack, setProductsBack] = useState([]);
   const { data: productsBackData } = useGetProductsQuery();
@@ -24,31 +23,11 @@ const ProductsPage = () => {
     }
   }, [productsBackData]);
 
-  const getAllProducts = async () => {
-    try {
-      const token = getToken().token;
-      if (!token) {
-        console.log('no token');
-         return;
-      }
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const result = await useGetProductsQuery();
-      console.log(result);
-   } catch (e) {
-      console.error(e);
-   }
- };
- 
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
   console.log(productsBack);
 
   const deleteProduct = (productId: number | undefined) => {
-    const updatedProducts = products.filter((product) => product.id !== productId);
-    setProducts(updatedProducts);
+    const updatedProducts = productsBack.filter((product) => product["_id"] !== productId);
+    setProductsBack(updatedProducts);
     setEditModalVisible(false);
   };
 
@@ -62,8 +41,8 @@ const ProductsPage = () => {
   }
 
   const handleChangeProduct = (product: IProduct) => {
-    const updatedProducts = [...products, { id: products.length, ...product }];
-    setProducts(updatedProducts);
+    const updatedProducts = [...productsBack, { id: productsBack.length, ...product }];
+    // setProducts(updatedProducts);
   } 
 
   const handleAddProduct = (product: IProduct) => {
@@ -74,10 +53,10 @@ const ProductsPage = () => {
   const handleEditProduct = (product: IProduct) => {
 
     console.log('Making changes:', product);
-    const updatedProducts = products.map((existingProduct: IProduct) =>
-      existingProduct.id === product.id ? { ...existingProduct, ...product } : existingProduct
-    );
-    setProducts(updatedProducts);
+    // const updatedProducts = products.map((existingProduct: IProduct) =>
+    //   existingProduct.id === product.id ? { ...existingProduct, ...product } : existingProduct
+    // );
+    // setProducts(updatedProducts);
     setEditModalVisible(false);
   };
 
@@ -86,10 +65,10 @@ const ProductsPage = () => {
       <TemplatePage title="Products">
         <div className="products-grid">
           <PlusButton onClick={toggleNewProductModal} />
-          {products.map((product: any) => (
+          {productsBack.map((product: any) => (
             <ProductCard 
-              key={product.id} 
-              onDelete={() => deleteProduct(product.id)}
+              key={product._id} 
+              onDelete={() => deleteProduct(product._id)}
               onEditClick={() => handleEditProduct(product)}
               {...product} 
             />

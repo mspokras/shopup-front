@@ -21,8 +21,8 @@ const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const yupSchema = yup.object({
   price: yup.number().required('Price is required'),
-  title: yup.string().required('Product name is required'),
-  desc: yup.string(),
+  name: yup.string().required('Product name is required'),
+  description: yup.string(),
   primImage: yup
     .mixed()
     .required('Primary image is required')
@@ -57,10 +57,10 @@ const ModalProducts = (props: PropTypes) => {
     resolver: yupResolver(yupSchema),
     defaultValues: {
       price: 0,
-      title: '',
+      name: '',
       primImage: undefined,
       secImages: undefined,
-      desc: '',
+      description: '',
       ...productToEdit
     },
   });
@@ -89,9 +89,9 @@ const ModalProducts = (props: PropTypes) => {
       const productData: IProduct = {
         primImage: data.primImage as any, 
         secImages: data.secImages as any,
-        title: data.title as string,
+        name: data.name as string,
         price: Number(data.price),
-        desc: data.desc as string,
+        description: data.description as string,
       };
       onAddProduct && onAddProduct(productData);
     } catch (e) {
@@ -103,9 +103,9 @@ const ModalProducts = (props: PropTypes) => {
     const productData: IProduct = {
       primImage: watch('primImage') as any,
       secImages: watch('secImages') as any,
-      title: watch('title') as string,
+      name: watch('name') as string,
       price: Number(watch('price')),
-      desc: watch('desc') as string,
+      description: watch('description') as string,
     };
     onDelete && onDelete(productData);
   };
@@ -176,15 +176,15 @@ const ModalProducts = (props: PropTypes) => {
               className='price-input' 
             />
             <FormInput 
-              placeholder='Title' 
-              {...register('title')}
-              className='title-input' 
+              placeholder='TItle' 
+              {...register('name')}
+              className='name-input' 
             />
           </div>
           <TextArea 
             placeholder='Description' 
             className='desc-input' 
-            {...register('desc')}
+            {...register('description')}
           />
         </div>
         {onDelete 
