@@ -39,9 +39,7 @@ const ProductsPage = () => {
   }
 
   const handleChangeProduct = (product: IProduct) => {
-    console.log(product);
     const updatedProducts = [...productsBack, { _id: productsBack.length.toString(), ...product }];
-    console.log(updatedProducts);
     setProductsBack(updatedProducts);
   } 
 
@@ -57,7 +55,6 @@ const ProductsPage = () => {
     handleChangeProduct(product);  
     addProductMutation(formData).unwrap();
     toggleNewProductModal();
-    console.log(product);
   }
 
   const handleEditProduct = async (product: IProduct) => {
@@ -71,6 +68,7 @@ const ProductsPage = () => {
     formData.append("productId", productToEdit._id!);
     addProductMutation(formData).unwrap();
     setProductsBack(productsBackData);
+    toggleEditProductModal();
   };
 
   const handleOpenEditModal = (product: IProduct) => {

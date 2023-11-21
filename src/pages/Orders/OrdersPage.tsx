@@ -14,8 +14,6 @@ const OrdersPage = () => {
       setOrdersBack(ordersBackData);
     }
   }, [ordersBackData]);
-
-  console.log(ordersBack);
   
   return (
     <div className='orders-page'>

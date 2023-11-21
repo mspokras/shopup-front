@@ -55,12 +55,24 @@ const ModalProducts = (props: PropTypes) => {
 
   const images: any = watch('images') || [];
 
+  // function getBase64(file: any) {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     console.log(reader.result);
+  //     reader.onerror = error => reject(error);
+  //   });
+  // }
+
   const handleImagesChange = (files: FileList, isSmall: boolean = false) => {
     const currentSecImages: any = watch('images') || [];
 
     const updatedSecImages = isSmall
     ? [...currentSecImages.slice(0, 1), ...Array.from(files)]
     : [files[0], ...currentSecImages.slice(1)];
+    // const imgConv = getBase64(updatedSecImages);
+    // console.log(imgConv);
 
     setValue('images', updatedSecImages);
   };
@@ -90,21 +102,6 @@ const ModalProducts = (props: PropTypes) => {
     };
     onDelete && onDelete(productData);
   };
-
-  // const onSaveChangesHandler = async () => {
-  //   try {
-  //     const productData: IProduct = {
-  //       images: (watch('images') as any).filter((image: any) => typeof image !== "string") as any,
-  //       name: watch('name') as string,
-  //       price: Number(watch('price')),
-  //       description: watch('description') as string,
-  //     };
-  //     onEditProduct && onEditProduct(productData);
-  //     onClose && onClose();
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
 
   const onError: SubmitErrorHandler<any> = async (value: any) => {
     console.log("Error", value)

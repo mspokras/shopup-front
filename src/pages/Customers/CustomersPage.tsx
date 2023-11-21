@@ -30,8 +30,6 @@ const CustomersPage = () => {
     createUser(customer);
   };
 
-  console.log(customers);
-
   const handleDeleteCustomer = (customerId?: string) => {
     const updatedCustomers = customers.filter((customer: ICustomer) => customer._id !== customerId);
     setCustomers(updatedCustomers);
