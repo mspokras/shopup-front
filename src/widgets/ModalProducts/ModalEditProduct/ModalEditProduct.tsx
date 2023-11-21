@@ -15,7 +15,7 @@ const ModalEditProduct = (props: PropTypes) => {
   return (
     <ModalProducts 
       onClose={onClose} 
-      onAddProduct={onEditProduct} 
+      onEditProduct={onEditProduct} 
       onDelete={onDeleteProduct} 
       productToEdit={productData}
     />

@@ -34,9 +34,8 @@ const ProductsPage = () => {
     setNewModalVisible(!isNewModalVisible);
   };
 
-  const toggleEditProductModal = (product: IProduct) => {
+  const toggleEditProductModal = () => {
     setEditModalVisible(!isEditModalVisible);
-    setProductToEdit(product);
   }
 
   const handleChangeProduct = (product: IProduct) => {
@@ -61,14 +60,23 @@ const ProductsPage = () => {
     console.log(product);
   }
 
-  const handleEditProduct = (product: IProduct) => {
-    toggleEditProductModal(product);
-    // const updatedProducts = productsBack.map((existingProduct: IProduct) =>
-    //   existingProduct._id === product._id ? { ...existingProduct, ...product } : existingProduct
-    // );
-    // setProductsBack(updatedProducts);
-    // console.log(productsBack);
+  const handleEditProduct = async (product: IProduct) => {
+    let formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("price", product.price.toString());
+    if (product.description) formData.append("description", product.description);
+    for (let i = 0; i < product.images.length; i++) {
+      formData.append("files", product.images[i]);
+    };
+    formData.append("productId", productToEdit._id!);
+    addProductMutation(formData).unwrap();
+    setProductsBack(productsBackData);
   };
+
+  const handleOpenEditModal = (product: IProduct) => {
+    setProductToEdit(product);
+    setEditModalVisible(true);
+  }
 
   return (
     <div className='products-page'>
@@ -79,7 +87,7 @@ const ProductsPage = () => {
             <ProductCard 
               key={product._id} 
               onDelete={() => deleteProduct(product._id)}
-              onEditClick={() => handleEditProduct(product)}
+              onEditClick={() => handleOpenEditModal(product)}
               {...product} 
             />
           ))}
@@ -91,8 +99,8 @@ const ProductsPage = () => {
           />}
         {isEditModalVisible && 
           <ModalEditProduct 
-            onClose={() => toggleEditProductModal(productToEdit)} 
-            onEditProduct={handleAddProduct} 
+            onClose={() => toggleEditProductModal()} 
+            onEditProduct={handleEditProduct} 
             onDeleteProduct={() => deleteProduct(productToEdit._id)}
             productData={productToEdit}
           />}

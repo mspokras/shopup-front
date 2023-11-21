@@ -6,13 +6,14 @@ import SubmitButton from '../../shared/components/Button/SubmitButton/SubmitButt
 import PlusButton from '../../shared/components/Button/PlusButton/PlusButton';
 import TextArea from '../../shared/components/TextArea/TextArea';
 import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IProduct } from '../../entities/Product/product.models';
 
 interface PropTypes {
   onClose?: () => void;
   onAddProduct?: (product: IProduct) => void;
+  onEditProduct?: (product: IProduct) => void;
   onDelete?: (product: IProduct) => void;
   productToEdit?: IProduct | null;
 }
@@ -22,28 +23,16 @@ const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
 const yupSchema = yup.object({
   price: yup.number().required('Price is required'),
   name: yup.string().required('Product name is required'),
-  description: yup.string(),
+  description: yup.string().required('Description is required'),
   images: yup
     .mixed()
     .required('At least one image is required')
-    .test('fileFormat', 'Invalid file format', (value: any) => {
-      if (!value || value.length === 0) {
-        return true;
-      }
-      return value.length <= 10 && Array.from(value).every((file: any) => validFileFormats.includes(file.type))
-    })
-    .test('minImages', 'You need to add at least 1 picture', (value: any) => {
-      return !value || value.length > 0;
-    })
-    .test('maxImages', 'You can add maximum 9 additional pictures', (value: any) => {
-      return !value || value.length <= 10;
-    }),
-});
+  });
 
 type YupSchemaType = yup.InferType<typeof yupSchema>;
 
 const ModalProducts = (props: PropTypes) => {
-  const { onClose, onAddProduct, onDelete, productToEdit } = props;
+  const { onClose, onAddProduct, onEditProduct, onDelete, productToEdit } = props;
 
   const {
     register,
@@ -86,6 +75,7 @@ const ModalProducts = (props: PropTypes) => {
         description: data.description as string,
       };
       onAddProduct && onAddProduct(productData);
+      onEditProduct && onEditProduct(productData);
     } catch (e) {
       console.log(e);
     }
@@ -101,18 +91,28 @@ const ModalProducts = (props: PropTypes) => {
     onDelete && onDelete(productData);
   };
 
-  const onSaveChangesHandler = async () => {
-    try {
-      await handleSubmit(onSubmitHandler)();
-      onClose && onClose(); 
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const onSaveChangesHandler = async () => {
+  //   try {
+  //     const productData: IProduct = {
+  //       images: (watch('images') as any).filter((image: any) => typeof image !== "string") as any,
+  //       name: watch('name') as string,
+  //       price: Number(watch('price')),
+  //       description: watch('description') as string,
+  //     };
+  //     onEditProduct && onEditProduct(productData);
+  //     onClose && onClose();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const onError: SubmitErrorHandler<any> = async (value: any) => {
+    console.log("Error", value)
+  }
 
   return (
     <Modal onClose={onClose}>
-      <form className="modal-products" onSubmit={handleSubmit(onSubmitHandler)}>
+      <form className="modal-products" onSubmit={handleSubmit(onSubmitHandler, onError)}>
         <div className="modal-pictures">
           {images[0] ? (
             <img
@@ -180,7 +180,7 @@ const ModalProducts = (props: PropTypes) => {
           ?
         <div className='modal-buttons'>
           <SubmitButton label="Delete" onClick={() => onDeleteHandler()} type="button" />
-          <SubmitButton label="Save Changes" onClick={() => onSaveChangesHandler()} type="button" />
+          <SubmitButton label="Save Changes" type="submit" />
         </div>
           :
         <SubmitButton label="Create New" type="submit" />
