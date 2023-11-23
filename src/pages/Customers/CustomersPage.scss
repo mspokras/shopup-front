@@ -24,18 +24,11 @@
       margin: 0 20px;
 
       .customer-heading {
-        width: 241px;
-      }
-    }
+        width: 210px;
 
-    .customers-row {
-      padding: 16px 20px;
-      display: flex;
-      background-color: #fff;
-      border-radius: 74px;
-
-      .customer-column {
-        width: 241px;
+        &:last-child {
+          width: 260px;
+        }
       }
     }
   }

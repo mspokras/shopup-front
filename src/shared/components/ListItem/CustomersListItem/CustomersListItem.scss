@@ -3,16 +3,36 @@
   display: flex;
   background-color: #fff;
   border-radius: 74px;
+  position: relative;
 
   .customer-column {
-    width: 241px;
+    width: 210px;
   }
 
   .customer-email {
     cursor: pointer;
+    width: 260px;
 
     a {
       color: #000;
+    }
+  }
+
+  .customer-delete {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    .customer-delete-icon {
+      width: 20px;
+      height: 20px;
     }
   }
 }

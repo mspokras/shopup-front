@@ -50,7 +50,7 @@ const CustomersPage = () => {
             <div className="customer-heading">Email</div>
           </li>
           {customers.map((customer)=>(
-            <CustomersListItem key={customer._id} {...customer} />
+            <CustomersListItem key={customer._id} _id={''} onDeleteCustomer={handleDeleteCustomer} {...customer} />
           ))}
         </ul>
         {isModalVisible && <ModalCustomers onClose={toggleModal} onAddCustomer={handleAddCustomer} />}

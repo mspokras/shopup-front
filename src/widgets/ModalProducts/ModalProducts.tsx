@@ -21,11 +21,14 @@ interface PropTypes {
 const validFileFormats = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const yupSchema = yup.object({
-  price: yup.number().required('Price is required'),
-  name: yup.string().required('Product name is required'),
+  price: yup.number().typeError('Number required').required('Price is required'),
+  name: yup.string().typeError('Invalid format').required('Product name is required'),
   description: yup.string().required('Description is required'),
   images: yup
     .mixed()
+    .test('fileFormat', 'Invalid file format', (value: any) => {
+      return Array.from(value).every((file: any) => validFileFormats.includes(file.type))
+    })
     .required('At least one image is required')
   });
 
@@ -39,10 +42,11 @@ const ModalProducts = (props: PropTypes) => {
     handleSubmit,
     setValue,
     watch,
+    formState: { errors },
   } = useForm<YupSchemaType>({
     resolver: yupResolver(yupSchema),
     defaultValues: {
-      price: 0,
+      price: undefined,
       name: '',
       images: undefined,
       description: '',
@@ -110,49 +114,52 @@ const ModalProducts = (props: PropTypes) => {
   return (
     <Modal onClose={onClose}>
       <form className="modal-products" onSubmit={handleSubmit(onSubmitHandler, onError)}>
-        <div className="modal-pictures">
-          {images[0] ? (
-            <img
-              src={productToEdit ? images[0] : URL.createObjectURL(images[0])}
-              alt="prim-img"
-              className="prim-image"
-            />
-          ) : (
-            <PlusButton
-              bottomLabel="Add Cover"
-              onClick={() => fileInputRef?.current?.click()}
-            />
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            ref={fileInputRef}
-            onChange={(e: any) => handleImagesChange(e.target.files, false)}
-          />
-          <div className="pictures-small">
-            {Array.from(images).slice(1, 10).map((image: any, index: number) => (
+        <div className="modal-pictures-container">
+          <div className="modal-pictures">
+            {images[0] ? (
               <img
-                key={index}
-                src={productToEdit ? images[index] : URL.createObjectURL(image)}
-                alt="img-extra"
-                className="img-extra"
+                src={productToEdit ? images[0] : URL.createObjectURL(images[0])}
+                alt="prim-img"
+                className="prim-image"
               />
-            ))}
-            {images.length < 10 && (
+            ) : (
               <PlusButton
-                onClick={() => fileInputRefSmall?.current?.click()}
+                bottomLabel="Add Cover"
+                onClick={() => fileInputRef?.current?.click()}
               />
             )}
             <input
               type="file"
               accept="image/*"
               style={{ display: 'none' }}
-              ref={fileInputRefSmall}
-              onChange={(e: any) => handleImagesChange(e.target.files, true)}
-              multiple
+              ref={fileInputRef}
+              onChange={(e: any) => handleImagesChange(e.target.files, false)}
             />
+            <div className="pictures-small">
+              {Array.from(images).slice(1, 10).map((image: any, index: number) => (
+                <img
+                  key={index}
+                  src={productToEdit ? images[index] : URL.createObjectURL(image)}
+                  alt="img-extra"
+                  className="img-extra"
+                />
+              ))}
+              {images.length < 10 && (
+                <PlusButton
+                  onClick={() => fileInputRefSmall?.current?.click()}
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={fileInputRefSmall}
+                onChange={(e: any) => handleImagesChange(e.target.files, true)}
+                multiple
+              />
+            </div>
           </div>
+          <div className='error-message'>{errors.images?.message}</div>
         </div>
         <div className="modal-inputs">
           <div className="inputs-main">
@@ -160,17 +167,20 @@ const ModalProducts = (props: PropTypes) => {
               placeholder='Price' 
               {...register('price')}
               className='price-input' 
+              error={errors.price?.message}
             />
             <FormInput 
               placeholder='Title' 
               {...register('name')}
               className='name-input' 
+              error={errors.name?.message}
             />
           </div>
           <TextArea 
             placeholder='Description' 
             className='desc-input' 
             {...register('description')}
+            error={errors.description?.message}
           />
         </div>
         {onDelete 

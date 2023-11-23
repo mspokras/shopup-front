@@ -6,51 +6,64 @@
   display: flex;
   flex-direction: column;
 
-  .modal-pictures {
-    height: 290px;
-    display: flex;
-    gap: 10px;
+  .modal-pictures-container {
+    position: relative;
 
-    .plus-button, .prim-image {
-      width: 290px;
-      height: 100%;
-    }
-
-    .plus-button img {
-      width: 52px;
-      height: 52px;
-    }
-
-    .prim-image {
-      overflow: hidden;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-
-    .pictures-small {
-      width: 290px;
+    .modal-pictures {
+      height: 290px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-
-      .plus-button {
-        width: 89px;
-        height: 89px;
-        border-radius: 16px;
-
-        img {
-          width: 52px;
-          height: 52px;
-        }
+      gap: 10px;
+  
+      .plus-button, .prim-image {
+        width: 290px;
+        height: 100%;
       }
-
-      .img-extra {
+  
+      .plus-button img {
+        width: 52px;
+        height: 52px;
+      }
+  
+      .prim-image {
         overflow: hidden;
         object-fit: cover;
-        width: 89px;
-        height: 89px;
         border-radius: 16px;
       }
+  
+      .pictures-small {
+        width: 290px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+  
+        .plus-button {
+          width: 89px;
+          height: 89px;
+          border-radius: 16px;
+  
+          img {
+            width: 52px;
+            height: 52px;
+          }
+        }
+  
+        .img-extra {
+          overflow: hidden;
+          object-fit: cover;
+          width: 89px;
+          height: 89px;
+          border-radius: 16px;
+        }
+      }
+    }
+  
+    .error-message {
+      margin-left: 16px;
+      position: relative;
+      font-size: 10px;
+      color: red;
+      position: absolute;
+      bottom: -15px;
     }
   }
 
@@ -60,6 +73,10 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    .form-control .error-message {
+      bottom: -12px;
+    }
 
     .inputs-main {
       width: 100%;
